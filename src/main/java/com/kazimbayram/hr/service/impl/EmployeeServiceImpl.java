@@ -30,16 +30,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.jobHistoryService = jobHistoryService;
     }
 
+    public List<EmployeeDto> findAll() {
+        var employee = this.employeeRepository.findAll();
+        return this.employeeMapper.toEmployeeDto(employee);
+    }
+
     public EmployeeDto findByEmployeeId(Long employeeId) {
-        var entity = this.employeeRepository.findByEmployeeId(employeeId).orElseThrow();
-        return this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeRepository.findByEmployeeId(employeeId).orElseThrow();
+        return this.employeeMapper.toEmployeeDto(employee);
     }
 
     public EmployeeDto create(EmployeeDto employeeDto) {
-        var entity = this.employeeMapper.toEmployee(employeeDto);
-        entity.setEmployeeId(null);
-        entity = this.employeeRepository.save(entity);
-        final var result = this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeMapper.toEmployee(employeeDto);
+
+        employee.setEmployeeId(null);
+
+        employee = this.employeeRepository.save(employee);
+        final var result = this.employeeMapper.toEmployeeDto(employee);
         result.setJobHistory(
                 Optional.of(employeeDto.getJobHistory())
                         .map(
@@ -57,13 +64,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public EmployeeDto createOrUpdate(Long employeeId, EmployeeDto employeeDto) {
-        var entity = this.employeeMapper.toEmployee(employeeDto);
+        var employee = this.employeeMapper.toEmployee(employeeDto);
 
-        entity.setEmployeeId(employeeId);
+        employee.setEmployeeId(employeeId);
 
-        entity = this.employeeRepository.save(entity);
+        employee = this.employeeRepository.save(employee);
 
-        final var result = this.employeeMapper.toEmployeeDto(entity);
+        final var result = this.employeeMapper.toEmployeeDto(employee);
         result.setJobHistory(
                 Optional.of(employeeDto.getJobHistory())
                         .map(
@@ -80,14 +87,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public EmployeeDto update(Long employeeId, EmployeeDto employeeDto) {
         var exist = this.employeeRepository.existsById(employeeId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.employeeMapper.toEmployee(employeeDto);
 
-        entity.setEmployeeId(employeeId);
+        var employee = this.employeeMapper.toEmployee(employeeDto);
 
-        entity = this.employeeRepository.save(entity);
+        employee.setEmployeeId(employeeId);
 
-        final var result = this.employeeMapper.toEmployeeDto(entity);
+        employee = this.employeeRepository.save(employee);
+
+        final var result = this.employeeMapper.toEmployeeDto(employee);
         result.setJobHistory(
                 Optional.of(employeeDto.getJobHistory())
                         .map(
@@ -99,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                                                                         result.getEmployeeId(), e))
                                                 .toList())
                         .orElse(List.of()));
+
         return result;
     }
 
@@ -107,23 +117,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public EmployeeDto findByEmail(String email) {
-        var entity = this.employeeRepository.findByEmail(email).orElseThrow();
-        return this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeRepository.findByEmail(email).orElseThrow();
+        return this.employeeMapper.toEmployeeDto(employee);
     }
 
     public List<EmployeeDto> findByJobId(String jobId) {
-        var entity = this.employeeRepository.findByJobJobId(jobId);
-        return this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeRepository.findByJobJobId(jobId);
+
+        return this.employeeMapper.toEmployeeDto(employee);
     }
 
     public List<EmployeeDto> findByManagerId(Long managerId) {
-        var entity = this.employeeRepository.findByManagerEmployeeId(managerId);
-        return this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeRepository.findByManagerEmployeeId(managerId);
+
+        return this.employeeMapper.toEmployeeDto(employee);
     }
 
     public List<EmployeeDto> findByDepartmentId(Long departmentId) {
-        var entity = this.employeeRepository.findByDepartmentDepartmentId(departmentId);
-        return this.employeeMapper.toEmployeeDto(entity);
+        var employee = this.employeeRepository.findByDepartmentDepartmentId(departmentId);
+
+        return this.employeeMapper.toEmployeeDto(employee);
     }
 
     public List<EmployeeDto> batchCreate(List<EmployeeDto> employeeDtoList) {

@@ -69,6 +69,11 @@ public class JobHistoryController {
         return this.jobHistoryService.findByDepartmentId(departmentId);
     }
 
+    @GetMapping("/")
+    public List<JobHistoryDto> findAll() {
+        return this.jobHistoryService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<JobHistoryDto> batchCreate(@RequestBody List<JobHistoryDto> jobHistoryDtoList) {
         return this.jobHistoryService.batchCreate(jobHistoryDtoList);

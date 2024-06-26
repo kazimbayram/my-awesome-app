@@ -22,38 +22,47 @@ public class RegionServiceImpl implements RegionService {
         this.regionRepository = regionRepository;
     }
 
+    public List<RegionDto> findAll() {
+        var region = this.regionRepository.findAll();
+        return this.regionMapper.toRegionDto(region);
+    }
+
     public RegionDto findByRegionId(Long regionId) {
-        var entity = this.regionRepository.findByRegionId(regionId).orElseThrow();
-        return this.regionMapper.toRegionDto(entity);
+        var region = this.regionRepository.findByRegionId(regionId).orElseThrow();
+        return this.regionMapper.toRegionDto(region);
     }
 
     public RegionDto create(RegionDto regionDto) {
-        var entity = this.regionMapper.toRegion(regionDto);
-        entity.setRegionId(null);
-        entity = this.regionRepository.save(entity);
-        return this.regionMapper.toRegionDto(entity);
+        var region = this.regionMapper.toRegion(regionDto);
+
+        region.setRegionId(null);
+
+        region = this.regionRepository.save(region);
+        return this.regionMapper.toRegionDto(region);
     }
 
     public RegionDto createOrUpdate(Long regionId, RegionDto regionDto) {
-        var entity = this.regionMapper.toRegion(regionDto);
+        var region = this.regionMapper.toRegion(regionDto);
 
-        entity.setRegionId(regionId);
+        region.setRegionId(regionId);
 
-        entity = this.regionRepository.save(entity);
+        region = this.regionRepository.save(region);
 
-        return this.regionMapper.toRegionDto(entity);
+        return this.regionMapper.toRegionDto(region);
     }
 
     public RegionDto update(Long regionId, RegionDto regionDto) {
         var exist = this.regionRepository.existsById(regionId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.regionMapper.toRegion(regionDto);
 
-        entity.setRegionId(regionId);
+        var region = this.regionMapper.toRegion(regionDto);
 
-        entity = this.regionRepository.save(entity);
+        region.setRegionId(regionId);
 
-        return this.regionMapper.toRegionDto(entity);
+        region = this.regionRepository.save(region);
+
+        return this.regionMapper.toRegionDto(region);
     }
 
     public void delete(Long regionId) {

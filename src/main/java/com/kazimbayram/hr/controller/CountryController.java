@@ -57,6 +57,11 @@ public class CountryController {
         return this.countryService.findByRegionId(regionId);
     }
 
+    @GetMapping("/")
+    public List<CountryDto> findAll() {
+        return this.countryService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<CountryDto> batchCreate(@RequestBody List<CountryDto> countryDtoList) {
         return this.countryService.batchCreate(countryDtoList);

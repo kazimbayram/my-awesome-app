@@ -22,38 +22,47 @@ public class CountryServiceImpl implements CountryService {
         this.countryRepository = countryRepository;
     }
 
+    public List<CountryDto> findAll() {
+        var country = this.countryRepository.findAll();
+        return this.countryMapper.toCountryDto(country);
+    }
+
     public CountryDto findByCountryId(String countryId) {
-        var entity = this.countryRepository.findByCountryId(countryId).orElseThrow();
-        return this.countryMapper.toCountryDto(entity);
+        var country = this.countryRepository.findByCountryId(countryId).orElseThrow();
+        return this.countryMapper.toCountryDto(country);
     }
 
     public CountryDto create(CountryDto countryDto) {
-        var entity = this.countryMapper.toCountry(countryDto);
-        entity.setCountryId(null);
-        entity = this.countryRepository.save(entity);
-        return this.countryMapper.toCountryDto(entity);
+        var country = this.countryMapper.toCountry(countryDto);
+
+        country.setCountryId(null);
+
+        country = this.countryRepository.save(country);
+        return this.countryMapper.toCountryDto(country);
     }
 
     public CountryDto createOrUpdate(String countryId, CountryDto countryDto) {
-        var entity = this.countryMapper.toCountry(countryDto);
+        var country = this.countryMapper.toCountry(countryDto);
 
-        entity.setCountryId(countryId);
+        country.setCountryId(countryId);
 
-        entity = this.countryRepository.save(entity);
+        country = this.countryRepository.save(country);
 
-        return this.countryMapper.toCountryDto(entity);
+        return this.countryMapper.toCountryDto(country);
     }
 
     public CountryDto update(String countryId, CountryDto countryDto) {
         var exist = this.countryRepository.existsById(countryId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.countryMapper.toCountry(countryDto);
 
-        entity.setCountryId(countryId);
+        var country = this.countryMapper.toCountry(countryDto);
 
-        entity = this.countryRepository.save(entity);
+        country.setCountryId(countryId);
 
-        return this.countryMapper.toCountryDto(entity);
+        country = this.countryRepository.save(country);
+
+        return this.countryMapper.toCountryDto(country);
     }
 
     public void delete(String countryId) {
@@ -61,8 +70,9 @@ public class CountryServiceImpl implements CountryService {
     }
 
     public List<CountryDto> findByRegionId(Long regionId) {
-        var entity = this.countryRepository.findByRegionRegionId(regionId);
-        return this.countryMapper.toCountryDto(entity);
+        var country = this.countryRepository.findByRegionRegionId(regionId);
+
+        return this.countryMapper.toCountryDto(country);
     }
 
     public List<CountryDto> batchCreate(List<CountryDto> countryDtoList) {

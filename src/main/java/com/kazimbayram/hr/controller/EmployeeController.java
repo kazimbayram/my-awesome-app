@@ -72,6 +72,11 @@ public class EmployeeController {
         return this.employeeService.findByDepartmentId(departmentId);
     }
 
+    @GetMapping("/")
+    public List<EmployeeDto> findAll() {
+        return this.employeeService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<EmployeeDto> batchCreate(@RequestBody List<EmployeeDto> employeeDtoList) {
         return this.employeeService.batchCreate(employeeDtoList);

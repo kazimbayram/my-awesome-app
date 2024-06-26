@@ -52,6 +52,11 @@ public class RegionController {
         this.regionService.delete(regionId);
     }
 
+    @GetMapping("/")
+    public List<RegionDto> findAll() {
+        return this.regionService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<RegionDto> batchCreate(@RequestBody List<RegionDto> regionDtoList) {
         return this.regionService.batchCreate(regionDtoList);

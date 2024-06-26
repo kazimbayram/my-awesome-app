@@ -18,6 +18,8 @@ public interface CountryService {
 
     List<CountryDto> findByRegionId(Long regionId);
 
+    List<CountryDto> findAll();
+
     List<CountryDto> batchCreate(List<CountryDto> countryDtoList);
 
     List<CountryDto> batchCreateOrUpdate(List<CountryDto> countryDtoList);

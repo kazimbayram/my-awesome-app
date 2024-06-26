@@ -22,6 +22,8 @@ public interface JobHistoryService {
 
     List<JobHistoryDto> findByDepartmentId(Long departmentId);
 
+    List<JobHistoryDto> findAll();
+
     List<JobHistoryDto> batchCreate(List<JobHistoryDto> jobHistoryDtoList);
 
     List<JobHistoryDto> batchCreateOrUpdate(List<JobHistoryDto> jobHistoryDtoList);

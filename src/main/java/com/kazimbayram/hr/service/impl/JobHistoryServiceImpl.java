@@ -23,38 +23,47 @@ public class JobHistoryServiceImpl implements JobHistoryService {
         this.jobHistoryRepository = jobHistoryRepository;
     }
 
+    public List<JobHistoryDto> findAll() {
+        var jobHistory = this.jobHistoryRepository.findAll();
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
+    }
+
     public JobHistoryDto findByJobHistoryId(Long jobHistoryId) {
-        var entity = this.jobHistoryRepository.findByJobHistoryId(jobHistoryId).orElseThrow();
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        var jobHistory = this.jobHistoryRepository.findByJobHistoryId(jobHistoryId).orElseThrow();
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public JobHistoryDto create(JobHistoryDto jobHistoryDto) {
-        var entity = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
-        entity.setJobHistoryId(null);
-        entity = this.jobHistoryRepository.save(entity);
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        var jobHistory = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
+
+        jobHistory.setJobHistoryId(null);
+
+        jobHistory = this.jobHistoryRepository.save(jobHistory);
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public JobHistoryDto createOrUpdate(Long jobHistoryId, JobHistoryDto jobHistoryDto) {
-        var entity = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
+        var jobHistory = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
 
-        entity.setJobHistoryId(jobHistoryId);
+        jobHistory.setJobHistoryId(jobHistoryId);
 
-        entity = this.jobHistoryRepository.save(entity);
+        jobHistory = this.jobHistoryRepository.save(jobHistory);
 
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public JobHistoryDto update(Long jobHistoryId, JobHistoryDto jobHistoryDto) {
         var exist = this.jobHistoryRepository.existsById(jobHistoryId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
 
-        entity.setJobHistoryId(jobHistoryId);
+        var jobHistory = this.jobHistoryMapper.toJobHistory(jobHistoryDto);
 
-        entity = this.jobHistoryRepository.save(entity);
+        jobHistory.setJobHistoryId(jobHistoryId);
 
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        jobHistory = this.jobHistoryRepository.save(jobHistory);
+
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public void delete(Long jobHistoryId) {
@@ -62,18 +71,21 @@ public class JobHistoryServiceImpl implements JobHistoryService {
     }
 
     public List<JobHistoryDto> findByEmployeeId(Long employeeId) {
-        var entity = this.jobHistoryRepository.findByEmployeeEmployeeId(employeeId);
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        var jobHistory = this.jobHistoryRepository.findByEmployeeEmployeeId(employeeId);
+
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public List<JobHistoryDto> findByJobId(String jobId) {
-        var entity = this.jobHistoryRepository.findByJobJobId(jobId);
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        var jobHistory = this.jobHistoryRepository.findByJobJobId(jobId);
+
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public List<JobHistoryDto> findByDepartmentId(Long departmentId) {
-        var entity = this.jobHistoryRepository.findByDepartmentDepartmentId(departmentId);
-        return this.jobHistoryMapper.toJobHistoryDto(entity);
+        var jobHistory = this.jobHistoryRepository.findByDepartmentDepartmentId(departmentId);
+
+        return this.jobHistoryMapper.toJobHistoryDto(jobHistory);
     }
 
     public List<JobHistoryDto> batchCreate(List<JobHistoryDto> jobHistoryDtoList) {

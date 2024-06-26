@@ -22,38 +22,47 @@ public class JobServiceImpl implements JobService {
         this.jobRepository = jobRepository;
     }
 
+    public List<JobDto> findAll() {
+        var job = this.jobRepository.findAll();
+        return this.jobMapper.toJobDto(job);
+    }
+
     public JobDto findByJobId(String jobId) {
-        var entity = this.jobRepository.findByJobId(jobId).orElseThrow();
-        return this.jobMapper.toJobDto(entity);
+        var job = this.jobRepository.findByJobId(jobId).orElseThrow();
+        return this.jobMapper.toJobDto(job);
     }
 
     public JobDto create(JobDto jobDto) {
-        var entity = this.jobMapper.toJob(jobDto);
-        entity.setJobId(null);
-        entity = this.jobRepository.save(entity);
-        return this.jobMapper.toJobDto(entity);
+        var job = this.jobMapper.toJob(jobDto);
+
+        job.setJobId(null);
+
+        job = this.jobRepository.save(job);
+        return this.jobMapper.toJobDto(job);
     }
 
     public JobDto createOrUpdate(String jobId, JobDto jobDto) {
-        var entity = this.jobMapper.toJob(jobDto);
+        var job = this.jobMapper.toJob(jobDto);
 
-        entity.setJobId(jobId);
+        job.setJobId(jobId);
 
-        entity = this.jobRepository.save(entity);
+        job = this.jobRepository.save(job);
 
-        return this.jobMapper.toJobDto(entity);
+        return this.jobMapper.toJobDto(job);
     }
 
     public JobDto update(String jobId, JobDto jobDto) {
         var exist = this.jobRepository.existsById(jobId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.jobMapper.toJob(jobDto);
 
-        entity.setJobId(jobId);
+        var job = this.jobMapper.toJob(jobDto);
 
-        entity = this.jobRepository.save(entity);
+        job.setJobId(jobId);
 
-        return this.jobMapper.toJobDto(entity);
+        job = this.jobRepository.save(job);
+
+        return this.jobMapper.toJobDto(job);
     }
 
     public void delete(String jobId) {

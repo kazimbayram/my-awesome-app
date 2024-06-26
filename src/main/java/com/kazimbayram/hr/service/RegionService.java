@@ -16,6 +16,8 @@ public interface RegionService {
 
     void delete(Long regionId);
 
+    List<RegionDto> findAll();
+
     List<RegionDto> batchCreate(List<RegionDto> regionDtoList);
 
     List<RegionDto> batchCreateOrUpdate(List<RegionDto> regionDtoList);

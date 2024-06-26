@@ -18,6 +18,8 @@ public interface LocationService {
 
     List<LocationDto> findByCountryId(String countryId);
 
+    List<LocationDto> findAll();
+
     List<LocationDto> batchCreate(List<LocationDto> locationDtoList);
 
     List<LocationDto> batchCreateOrUpdate(List<LocationDto> locationDtoList);

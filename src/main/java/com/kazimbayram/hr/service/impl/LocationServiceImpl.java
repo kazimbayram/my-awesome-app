@@ -23,38 +23,47 @@ public class LocationServiceImpl implements LocationService {
         this.locationRepository = locationRepository;
     }
 
+    public List<LocationDto> findAll() {
+        var location = this.locationRepository.findAll();
+        return this.locationMapper.toLocationDto(location);
+    }
+
     public LocationDto findByLocationId(Long locationId) {
-        var entity = this.locationRepository.findByLocationId(locationId).orElseThrow();
-        return this.locationMapper.toLocationDto(entity);
+        var location = this.locationRepository.findByLocationId(locationId).orElseThrow();
+        return this.locationMapper.toLocationDto(location);
     }
 
     public LocationDto create(LocationDto locationDto) {
-        var entity = this.locationMapper.toLocation(locationDto);
-        entity.setLocationId(null);
-        entity = this.locationRepository.save(entity);
-        return this.locationMapper.toLocationDto(entity);
+        var location = this.locationMapper.toLocation(locationDto);
+
+        location.setLocationId(null);
+
+        location = this.locationRepository.save(location);
+        return this.locationMapper.toLocationDto(location);
     }
 
     public LocationDto createOrUpdate(Long locationId, LocationDto locationDto) {
-        var entity = this.locationMapper.toLocation(locationDto);
+        var location = this.locationMapper.toLocation(locationDto);
 
-        entity.setLocationId(locationId);
+        location.setLocationId(locationId);
 
-        entity = this.locationRepository.save(entity);
+        location = this.locationRepository.save(location);
 
-        return this.locationMapper.toLocationDto(entity);
+        return this.locationMapper.toLocationDto(location);
     }
 
     public LocationDto update(Long locationId, LocationDto locationDto) {
         var exist = this.locationRepository.existsById(locationId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.locationMapper.toLocation(locationDto);
 
-        entity.setLocationId(locationId);
+        var location = this.locationMapper.toLocation(locationDto);
 
-        entity = this.locationRepository.save(entity);
+        location.setLocationId(locationId);
 
-        return this.locationMapper.toLocationDto(entity);
+        location = this.locationRepository.save(location);
+
+        return this.locationMapper.toLocationDto(location);
     }
 
     public void delete(Long locationId) {
@@ -62,8 +71,9 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public List<LocationDto> findByCountryId(String countryId) {
-        var entity = this.locationRepository.findByCountryCountryId(countryId);
-        return this.locationMapper.toLocationDto(entity);
+        var location = this.locationRepository.findByCountryCountryId(countryId);
+
+        return this.locationMapper.toLocationDto(location);
     }
 
     public List<LocationDto> batchCreate(List<LocationDto> locationDtoList) {

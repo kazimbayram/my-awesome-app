@@ -24,6 +24,8 @@ public interface EmployeeService {
 
     List<EmployeeDto> findByDepartmentId(Long departmentId);
 
+    List<EmployeeDto> findAll();
+
     List<EmployeeDto> batchCreate(List<EmployeeDto> employeeDtoList);
 
     List<EmployeeDto> batchCreateOrUpdate(List<EmployeeDto> employeeDtoList);

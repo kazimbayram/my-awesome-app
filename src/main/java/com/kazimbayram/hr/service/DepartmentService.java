@@ -20,6 +20,8 @@ public interface DepartmentService {
 
     List<DepartmentDto> findByManagerId(Long managerId);
 
+    List<DepartmentDto> findAll();
+
     List<DepartmentDto> batchCreate(List<DepartmentDto> departmentDtoList);
 
     List<DepartmentDto> batchCreateOrUpdate(List<DepartmentDto> departmentDtoList);

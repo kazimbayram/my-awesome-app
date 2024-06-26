@@ -50,6 +50,11 @@ public class JobController {
         this.jobService.delete(jobId);
     }
 
+    @GetMapping("/")
+    public List<JobDto> findAll() {
+        return this.jobService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<JobDto> batchCreate(@RequestBody List<JobDto> jobDtoList) {
         return this.jobService.batchCreate(jobDtoList);

@@ -23,38 +23,47 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
+    public List<DepartmentDto> findAll() {
+        var department = this.departmentRepository.findAll();
+        return this.departmentMapper.toDepartmentDto(department);
+    }
+
     public DepartmentDto findByDepartmentId(Long departmentId) {
-        var entity = this.departmentRepository.findByDepartmentId(departmentId).orElseThrow();
-        return this.departmentMapper.toDepartmentDto(entity);
+        var department = this.departmentRepository.findByDepartmentId(departmentId).orElseThrow();
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public DepartmentDto create(DepartmentDto departmentDto) {
-        var entity = this.departmentMapper.toDepartment(departmentDto);
-        entity.setDepartmentId(null);
-        entity = this.departmentRepository.save(entity);
-        return this.departmentMapper.toDepartmentDto(entity);
+        var department = this.departmentMapper.toDepartment(departmentDto);
+
+        department.setDepartmentId(null);
+
+        department = this.departmentRepository.save(department);
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public DepartmentDto createOrUpdate(Long departmentId, DepartmentDto departmentDto) {
-        var entity = this.departmentMapper.toDepartment(departmentDto);
+        var department = this.departmentMapper.toDepartment(departmentDto);
 
-        entity.setDepartmentId(departmentId);
+        department.setDepartmentId(departmentId);
 
-        entity = this.departmentRepository.save(entity);
+        department = this.departmentRepository.save(department);
 
-        return this.departmentMapper.toDepartmentDto(entity);
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public DepartmentDto update(Long departmentId, DepartmentDto departmentDto) {
         var exist = this.departmentRepository.existsById(departmentId);
+
         if (!exist) throw new EntityNotFoundException("Not Exists");
-        var entity = this.departmentMapper.toDepartment(departmentDto);
 
-        entity.setDepartmentId(departmentId);
+        var department = this.departmentMapper.toDepartment(departmentDto);
 
-        entity = this.departmentRepository.save(entity);
+        department.setDepartmentId(departmentId);
 
-        return this.departmentMapper.toDepartmentDto(entity);
+        department = this.departmentRepository.save(department);
+
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public void delete(Long departmentId) {
@@ -62,13 +71,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     public List<DepartmentDto> findByLocationId(Long locationId) {
-        var entity = this.departmentRepository.findByLocationLocationId(locationId);
-        return this.departmentMapper.toDepartmentDto(entity);
+        var department = this.departmentRepository.findByLocationLocationId(locationId);
+
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public List<DepartmentDto> findByManagerId(Long managerId) {
-        var entity = this.departmentRepository.findByManagerEmployeeId(managerId);
-        return this.departmentMapper.toDepartmentDto(entity);
+        var department = this.departmentRepository.findByManagerEmployeeId(managerId);
+
+        return this.departmentMapper.toDepartmentDto(department);
     }
 
     public List<DepartmentDto> batchCreate(List<DepartmentDto> departmentDtoList) {

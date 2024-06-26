@@ -16,6 +16,8 @@ public interface JobService {
 
     void delete(String jobId);
 
+    List<JobDto> findAll();
+
     List<JobDto> batchCreate(List<JobDto> jobDtoList);
 
     List<JobDto> batchCreateOrUpdate(List<JobDto> jobDtoList);

@@ -64,6 +64,11 @@ public class DepartmentController {
         return this.departmentService.findByManagerId(managerId);
     }
 
+    @GetMapping("/")
+    public List<DepartmentDto> findAll() {
+        return this.departmentService.findAll();
+    }
+
     @PostMapping("/batch")
     public List<DepartmentDto> batchCreate(@RequestBody List<DepartmentDto> departmentDtoList) {
         return this.departmentService.batchCreate(departmentDtoList);
